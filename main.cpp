@@ -219,7 +219,8 @@ void idle(void) {
         velX = v_dec_final * cos(plane.getThetaPlane()*3.14159265/180);
         velY = v_dec_final * sin(plane.getThetaPlane()*3.14159265/180);
 
-        inimigosvoadores.moverInimigos(deltaTempo);
+        // inimigosvoadores.moverInimigos(deltaTempo);
+        circulos.moverInimigos(v_dec * deltaTempo/1000, inimigosvoadores);
 
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
 	    	player->moveY(velY);
@@ -424,10 +425,10 @@ bool readSVG(const char* caminho, char* nome, char* tipo){
                     cx0 = cx;
                     cy0 = window_height - cy;
                 }
-                circulos.addCirculo(cr, cx, window_height - cy, num_segs, fill, cid);
                 if(fill.compare("red") == 0){
-                    inimigosvoadores.addInimigoVoador(cid, vel_inimigo, velTiro_inimigo, freqTiro_inimigo, circulos.getLastAdded());
+                    inimigosvoadores.addInimigoVoador(cid, vel_inimigo, velTiro_inimigo, freqTiro_inimigo);
                 }
+                circulos.addCirculo(cr, cx, window_height - cy, num_segs, fill, cid);
             } else if(strcmp(pElement->Name(), "line") == 0 && strncmp(pElement->Name(), "line", strlen("line")) == 0){
                 pElement->QueryFloatAttribute("x1", &lx1);
                 std::cout << "x1: " << lx1 << std::endl;

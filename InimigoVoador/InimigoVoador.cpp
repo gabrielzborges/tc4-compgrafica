@@ -1,11 +1,10 @@
 #include "./InimigoVoador.h"
 
-InimigoVoador::InimigoVoador(int id, float vel, float velTiro, float freqTiro, Circulo* c) : Aviao() {
+InimigoVoador::InimigoVoador(int id, float vel, float velTiro, float freqTiro) : Aviao() {
     this->id = id;
     this->vel = vel;
     this->velTiro = velTiro;
     this->freqTiro = freqTiro;
-    this->c = c;
 }
 
 int InimigoVoador::getId(){
@@ -26,10 +25,6 @@ float InimigoVoador::getFreqTiro(){
 
 float InimigoVoador::getThetaMyPlane(){
     return this->getThetaPlane();
-}
-
-Circulo* InimigoVoador::getCirculo(){
-    return this->c;
 }
 
 void InimigoVoador::desenhaInimigoVoador(float x, float y, float raio){

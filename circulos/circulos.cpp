@@ -1,5 +1,6 @@
 #include "circulos.h"
 #include <iostream>
+#include <math.h>
 #include <string>
 
 Circulos::Circulos(/* args */){
@@ -54,6 +55,19 @@ int Circulos::estaSobreQual(float x, float y){
 
 void Circulos::arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos){
     this->lista[pos].setCoords(novo_x, novo_y);
+}
+
+void Circulos::moverInimigos(float deltaTempoIdle, InimigosVoadores inimigos){
+    float velAjustada = inimigos.getVel() * deltaTempoIdle;
+    for(int i = 0; i < this->lista.size(); i++){
+        if(this->lista[i].getFill().compare("red") == 0){
+            InimigoVoador* aux = inimigos.getInimigoVoadorById(this->lista[i].getId());
+            float velX = velAjustada * cos(aux->getThetaMyPlane() * M_PI/180);
+            float velY = velAjustada * sin(aux->getThetaMyPlane() * M_PI/180);
+            this->lista[i].moveX(velX);
+            this->lista[i].moveY(velY);
+        }
+    }
 }
 
 Circulo* Circulos::getCirculoById(int id){

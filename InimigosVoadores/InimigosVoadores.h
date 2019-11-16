@@ -11,11 +11,14 @@ class InimigosVoadores {
 
     public:
         InimigosVoadores();
+        float getVel();
+        float getVelTiro();
+        float getFreqTiro();
         void setVel(float v);
         void setVelTiro(float vTiro);
         void setFreqTiro(float fTiro);
         InimigoVoador* getInimigoVoadorById(int id);
-        void addInimigoVoador(int id, float vel, float velTiro, float freqTiro, Circulo* c);
+        void addInimigoVoador(int id, float vel, float velTiro, float freqTiro);
         void moverInimigos(float deltaTempoIdle);
         ~InimigosVoadores();
 };

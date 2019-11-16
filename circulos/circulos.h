@@ -3,6 +3,7 @@
 
 
 #include "../circulo/circulo.h"
+#include "../InimigosVoadores/InimigosVoadores.h"
 #include <string>
 #include <vector>
 
@@ -21,6 +22,7 @@ public:
     bool colideComInimigo(float x, float y, float raio);
     int estaSobreQual(float x, float y);
     void arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos);
+    void moverInimigos(float deltaTempoIdle, InimigosVoadores inimigos);
     Circulo* getCirculoById(int id);
     Circulo* getCirculoByColor(std::string color);
     ~Circulos();
