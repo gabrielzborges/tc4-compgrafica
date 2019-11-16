@@ -21,13 +21,13 @@ public:
     void rotatePlane(float theta);
     void rotateCanhao(float theta);
     void rotateHelice(float delta, float raioMaior);
-    void desenhaFuselagem(float raioMaior, float raioMenor);
+    void desenhaFuselagem(float raioMaior, float raioMenor, char tipo);
     void desenhaAsa(float raioMaior);
     void desenhaCauda(float raioMaior);
     void desenhaCabine(float raioMaior, float raioMenor);
     void desenhaCanhao(float raioMaior);
     void desenhaHelice(float raioMaior);
-    void desenhaAviao(float x, float y, float raioMaior);
+    void desenhaAviao(float x, float y, float raioMaior, char tipo);
     // Tiro atirar(float x, float y, float raioMaior);
 
     Aviao(/* args */);

@@ -55,9 +55,13 @@ void Aviao::rotateHelice(float delta, float raioMaior){
     this->thetaHelice += delta*180/(M_PI*0.1*raioMaior);
 }
 
-void Aviao::desenhaFuselagem(float raioMaior, float raioMenor){
+void Aviao::desenhaFuselagem(float raioMaior, float raioMenor, char tipo){
     glPushMatrix();
-    glColor3f(0.0, 0.7, 0.0);
+    if(tipo == 'j'){
+        glColor3f(0.0, 0.7, 0.0);
+    } else {
+        glColor3f(1.0, 0.0, 0.0);
+    }
     glBegin(GL_POLYGON);
         for( int n = 0; n <= 360; ++n ) {
             float angulo = 2.0f * M_PI * (float)n / (float)360;
@@ -182,14 +186,14 @@ void Aviao::desenhaHelice(float raioMaior){
     glPopMatrix();
 }
 
-void Aviao::desenhaAviao(float x, float y, float raioMaior){
+void Aviao::desenhaAviao(float x, float y, float raioMaior, char tipo){
     glPushMatrix();
     glTranslatef(x, y, 0.0);
     glRotatef(this->thetaPlane, 0.0, 0.0, 1.0);
     float raioMenor = 0.3 * raioMaior;
     this->desenhaAsa(raioMaior);
     this->desenhaHelice(raioMaior);
-    this->desenhaFuselagem(raioMaior, raioMenor);
+    this->desenhaFuselagem(raioMaior, raioMenor, tipo);
     this->desenhaCauda(raioMaior);
     this->desenhaCabine(0.35*raioMaior, 0.25*raioMenor);
     this->desenhaCanhao(raioMaior);

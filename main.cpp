@@ -10,6 +10,8 @@
 #include "tiros/tiros.h"
 #include "bomba/bomba.h"
 #include "bombas/bombas.h"
+#include "InimigoVoador/InimigoVoador.h"
+#include "InimigosVoadores/InimigosVoadores.h"
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
@@ -67,13 +69,17 @@ float num_segs = 360;
 int window_width;
 int window_height;
 
+//movimento do mouse
 float mouse_x;
 
+
+//objetos globais
 Circulos circulos = Circulos();
 Circulo* player;
 Circulo* arena;
 
 Aviao plane = Aviao();
+InimigosVoadores inimigosvoadores = InimigosVoadores();
 
 Tiros tiros = Tiros();
 
@@ -107,8 +113,13 @@ void display(void) {
                 plane.setThetaPlane(atan2((window_height-ly2)-(window_height-ly1), lx2-lx1));
             }
             bombas.drawBombas(arena);
-            plane.desenhaAviao(c.getXCoord(), c.getYCoord(), c.getRaio());
+            plane.desenhaAviao(c.getXCoord(), c.getYCoord(), c.getRaio(), 'j');
             tiros.drawTiros(arena);
+        } else if(c.getFill().compare("red") == 0){
+            InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(c.getId());
+            if(aux->getId() != -1){
+                aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord(), c.getRaio());
+            }
         } else {
             c.drawCirculo();
         }
@@ -207,6 +218,9 @@ void idle(void) {
         v_dec_final = v_dec * vel * (deltaTempo/1000);
         velX = v_dec_final * cos(plane.getThetaPlane()*3.14159265/180);
         velY = v_dec_final * sin(plane.getThetaPlane()*3.14159265/180);
+
+        inimigosvoadores.moverInimigos(deltaTempo);
+
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
 	    	player->moveY(velY);
             arena->estaTotalmenteDentro(player, &plane, "cima", velY);
@@ -344,6 +358,10 @@ bool readConfigXML(const char* caminho_pastas){
         pElement->QueryFloatAttribute("vel", &vel_inimigo);
         pElement->QueryFloatAttribute("velTiro", &velTiro_inimigo);
 
+        inimigosvoadores.setVel(vel_inimigo);
+        inimigosvoadores.setVelTiro(velTiro_inimigo);
+        inimigosvoadores.setFreqTiro(freqTiro_inimigo);
+
         std::cout << "nome: " << nome << std::endl;
         std::cout << "tipo: " << tipo << std::endl;
         std::cout << "caminho: " << caminhoArq << std::endl;
@@ -407,6 +425,9 @@ bool readSVG(const char* caminho, char* nome, char* tipo){
                     cy0 = window_height - cy;
                 }
                 circulos.addCirculo(cr, cx, window_height - cy, num_segs, fill, cid);
+                if(fill.compare("red") == 0){
+                    inimigosvoadores.addInimigoVoador(cid, vel_inimigo, velTiro_inimigo, freqTiro_inimigo, circulos.getLastAdded());
+                }
             } else if(strcmp(pElement->Name(), "line") == 0 && strncmp(pElement->Name(), "line", strlen("line")) == 0){
                 pElement->QueryFloatAttribute("x1", &lx1);
                 std::cout << "x1: " << lx1 << std::endl;

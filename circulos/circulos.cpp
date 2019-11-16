@@ -10,6 +10,10 @@ std::vector<Circulo> Circulos::getLista(){
     return this->lista;
 }
 
+Circulo* Circulos::getLastAdded(){
+    return &this->lista[this->lista.size()];
+}
+
 void Circulos::addCirculo(float r, float x, float y, float num_segs, std::string color, int id) {
     Circulo c = Circulo(r, x, y, num_segs, color, id);
     this->lista.push_back(c);
