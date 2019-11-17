@@ -223,6 +223,7 @@ void idle(void) {
         // inimigosvoadores.moverInimigos(deltaTempo);
         circulos.moverInimigos(arena, v_dec_imutavel * deltaTempo/1000, inimigosvoadores);
         inimigosvoadores.moverHelicesInimigos(v_dec_imutavel * deltaTempo/1000);
+        inimigosvoadores.virarInimigos(deltaTempo/1000);
         // circulos.teletransporteInimigos(arena, inimigosvoadores, v_dec_imutavel * deltaTempo/1000);
 
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){

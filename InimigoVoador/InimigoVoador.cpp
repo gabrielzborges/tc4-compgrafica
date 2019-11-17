@@ -1,5 +1,7 @@
 #include "./InimigoVoador.h"
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 InimigoVoador::InimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro) : Aviao() {
     this->id = id;
@@ -7,6 +9,7 @@ InimigoVoador::InimigoVoador(int id, float raio, float vel, float velTiro, float
     this->vel = vel;
     this->velTiro = velTiro;
     this->freqTiro = freqTiro;
+    this->estaVirando = false;
 }
 
 int InimigoVoador::getId(){
@@ -52,7 +55,33 @@ void InimigoVoador::rotateMyHelice(float deltaTempoIdle, float vel_inimigo){
     this->rotateHelice(sqrt(pow(velX, 2) + pow(velY, 2)), this->getRaio());
 }
 
-void InimigoVoador::moverAleatoriamente(){}
+void InimigoVoador::moverAleatoriamente(float deltaTempoIdle){
+    if(this->estaVirando){
+        if(this->sentidoVirar == 1){
+            this->rotatePlane((M_PI/2)*(deltaTempoIdle));
+            if(this->getThetaPlane() >= this->thetaAlvo){
+                this->setThetaPlane(this->thetaAlvo);
+                this->estaVirando = false;
+            }
+        } else {
+            this->rotatePlane(-(M_PI/2)*(deltaTempoIdle));
+            if(this->getThetaPlane() <= this->thetaAlvo){
+                this->setThetaPlane(this->thetaAlvo);
+                this->estaVirando = false;
+            }
+        }
+    } else {
+        // srand (time(NULL));
+        int targetAngle = rand() % 360 + 1;
+        this->sentidoVirar = rand() % 2;
+        if(this->sentidoVirar == 1){
+            this->thetaAlvo = this->getThetaPlane() + targetAngle;
+        } else {
+            this->thetaAlvo = this->getThetaPlane() - targetAngle;
+        }
+        this->estaVirando = true;
+    }
+}
 
 InimigoVoador::~InimigoVoador(){
 

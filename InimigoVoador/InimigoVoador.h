@@ -6,8 +6,9 @@
 
 class InimigoVoador: Aviao {
 private:
-    int id;
-    float raio, vel, velTiro, freqTiro;
+    int id, sentidoVirar;
+    float raio, vel, velTiro, freqTiro, thetaAlvo;
+    bool estaVirando;
 
 public:
     InimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro);
@@ -21,7 +22,7 @@ public:
     void setThetaMyCanhao(float theta);
     void desenhaInimigoVoador(float x, float y);
     void rotateMyHelice(float deltaTempoIdle, float vel_inimigo);
-    void moverAleatoriamente();
+    void moverAleatoriamente(float deltaTempoIdle);
     ~InimigoVoador();
 };
 

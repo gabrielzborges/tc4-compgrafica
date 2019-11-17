@@ -21,6 +21,7 @@ class InimigosVoadores {
         void initThetaCanhao();
         InimigoVoador* getInimigoVoadorById(int id);
         void addInimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro);
+        void virarInimigos(float deltaTempoIdle);
         void moverInimigos(float deltaTempoIdle);
         void moverHelicesInimigos(float deltaTempoIdle);
         ~InimigosVoadores();

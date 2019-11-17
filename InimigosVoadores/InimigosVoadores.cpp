@@ -66,6 +66,12 @@ void InimigosVoadores::moverHelicesInimigos(float deltaTempoIdle){
     }
 }
 
+void InimigosVoadores::virarInimigos(float deltaTempoIdle){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].moverAleatoriamente(deltaTempoIdle);
+    }
+}
+
 // void InimigosVoadores::moverInimigos(float deltaTempoIdle){
 //     float velAjustado = this->vel * deltaTempoIdle;
 //     for(int i = 0; i < this->lista.size(); i++){
