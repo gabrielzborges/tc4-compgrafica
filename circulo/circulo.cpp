@@ -158,6 +158,15 @@ void Circulo::inimigoEstaTotalmenteDentro(Circulo* c, InimigoVoador* a, std::str
     }
 }
 
+// bool Circulo::baleado(Tiros* tiros){
+//     for(Tiro t : tiros->getLista()){
+//         if(t.getAtirador() == 'i' && this->colideComigo(t.getX(), t.getY(), t.getR())){
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
 void Circulo::moveX(float vx){
     this->x += vx;
 }

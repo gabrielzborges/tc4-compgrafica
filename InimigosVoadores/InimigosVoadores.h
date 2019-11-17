@@ -2,12 +2,13 @@
 #define INIMIGOSVOADORES_H
 
 #include "../InimigoVoador/InimigoVoador.h"
+// #include "../tiros/tiros.h"
 #include <vector>
 
 class InimigosVoadores {
     private:
         std::vector<InimigoVoador> lista;
-        float vel, velTiro, freqTiro;
+        float vel, velTiro, freqTiro, tempoControleTiro;
 
     public:
         InimigosVoadores();
@@ -23,6 +24,7 @@ class InimigosVoadores {
         void setInitConditions();
         InimigoVoador* getInimigoVoadorById(int id);
         void addInimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro);
+        bool atirar(float timeNow);
         void virarInimigos(float deltaTempoIdle);
         void moverInimigos(float deltaTempoIdle);
         void moverHelicesInimigos(float deltaTempoIdle);

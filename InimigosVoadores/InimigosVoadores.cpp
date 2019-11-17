@@ -8,6 +8,7 @@ InimigosVoadores::InimigosVoadores(){
     this->vel = 0.0;
     this->velTiro = 0.0;
     this->freqTiro = 0.0;
+    this->tempoControleTiro = -1.0;
 }
 
 float InimigosVoadores::getVel(){
@@ -58,6 +59,7 @@ void InimigosVoadores::setInitConditions(){
         this->lista[i].setThetaMyCanhao(0.0);
         this->lista[i].setThetaMyPlane(0.0);
         this->lista[i].setInitialConditions();
+        this->tempoControleTiro = -1.0;
     }
 }
 
@@ -73,6 +75,18 @@ InimigoVoador* InimigosVoadores::getInimigoVoadorById(int id){
 void InimigosVoadores::addInimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro){
     InimigoVoador iniVoador = InimigoVoador(id, raio, vel, velTiro, freqTiro);
     this->lista.push_back(iniVoador);
+}
+
+bool InimigosVoadores::atirar(float timeNow){
+    if(this->tempoControleTiro == -1.0){
+        this->tempoControleTiro = timeNow;
+        return false;
+    } else if(timeNow - this->tempoControleTiro >= (1/freqTiro)*1000){
+        std::cout << "Inimigos atirando, instante: " << timeNow/1000 << std::endl;
+        this->tempoControleTiro = timeNow;
+        return true;
+    }
+    return false;
 }
 
 void InimigosVoadores::moverHelicesInimigos(float deltaTempoIdle){

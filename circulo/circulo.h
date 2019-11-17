@@ -3,6 +3,7 @@
 
 
 #include "../InimigoVoador/InimigoVoador.h"
+// #include "../tiros/tiros.h"
 #include "../aviao/aviao.h"
 #include <string>
 
@@ -28,6 +29,7 @@ public:
     bool pertenceAoMeuDisco(float x, float y);
     void estaTotalmenteDentro(Circulo* c, Aviao* a, std::string direcaoSentido, float delta);
     void inimigoEstaTotalmenteDentro(Circulo* c, InimigoVoador* a, std::string direcaoSentido, float delta);
+    // bool baleado(Tiros* tiros);
     void moveX(float vx);
     void moveY(float vy);
     void aumentarRaio(float incremento);

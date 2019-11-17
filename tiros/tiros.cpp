@@ -13,15 +13,19 @@ int Tiros::getIncrementingNth(){
     return this->nth;
 }
 
+std::vector<Tiro> Tiros::getLista(){
+    return this->lista;
+}
+
 void Tiros::resetNth(){
     this->nth = -1;
 }
 
 void Tiros::addTiro(int id, float x, float y, float raioPlayer, float thetaAviaoMomento, 
-                    float thetaCanhaoMomento, float veloc){
+                    float thetaCanhaoMomento, float veloc, char quem){
     float x_tiro = x + raioPlayer*cos(thetaAviaoMomento*M_PI/180) + raioPlayer/2*cos((thetaAviaoMomento + thetaCanhaoMomento)*M_PI/180);
     float y_tiro = y + raioPlayer*sin(thetaAviaoMomento*M_PI/180) + raioPlayer/2*sin((thetaAviaoMomento + thetaCanhaoMomento)*M_PI/180);
-    Tiro t = Tiro(id, x_tiro, y_tiro, raioPlayer, thetaAviaoMomento + thetaCanhaoMomento, veloc);
+    Tiro t = Tiro(id, x_tiro, y_tiro, raioPlayer, thetaAviaoMomento + thetaCanhaoMomento, veloc, quem);
     this->lista.push_back(t);
 }
 
@@ -48,6 +52,17 @@ void Tiros::moverTiros(float deltaVel){
     for(int i = 0; i < this->lista.size(); i++){
         lista[i].mover(deltaVel);
     }
+}
+
+bool Tiros::playerBaleado(Circulo* player){
+    for(int i = 0; i < this->lista.size(); i++){
+        if(this->lista[i].getAtirador() == 'i' 
+            && player->colideComigo(this->lista[i].getX(), this->lista[i].getY(), 
+                                        this->lista[i].getR())){
+            return true;
+        }
+    }
+    return false;
 }
 
 void Tiros::limparTiros(){

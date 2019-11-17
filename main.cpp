@@ -147,7 +147,7 @@ void mouse(int button, int state, int x, int y) {
         //tiro
         if(decolou){
             tiros.addTiro(tiros.getIncrementingNth(), player->getXCoord(), player->getYCoord(), player->getRaio(), 
-                            plane.getThetaPlane(), plane.getThetaCanhao(), v_dec*velTiro);
+                            plane.getThetaPlane(), plane.getThetaCanhao(), v_dec*velTiro, 'j');
         }
 	}
 	if(button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN && !plane.getPerdeu()) {
@@ -224,6 +224,17 @@ void idle(void) {
         circulos.moverInimigos(arena, v_dec_imutavel * deltaTempo/1000, inimigosvoadores);
         inimigosvoadores.moverHelicesInimigos(v_dec_imutavel * deltaTempo/1000);
         inimigosvoadores.virarInimigos(deltaTempo/1000);
+        // inimigosvoadores.atirar(&tiros, tempoAtual);
+        if(inimigosvoadores.atirar(tempoAtual)){
+            std::vector<Circulo> list_circulo = circulos.getLista();
+            for(int i = 0; i < list_circulo.size(); i++){
+                if(list_circulo[i].getFill().compare("red") == 0){
+                    InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(list_circulo[i].getId());
+                    tiros.addTiro(tiros.getIncrementingNth(), list_circulo[i].getXCoord(), list_circulo[i].getYCoord(), list_circulo[i].getRaio(), 
+                                aux->getThetaMyPlane(), aux->getThetaMyCanhao(), v_dec_imutavel * inimigosvoadores.getVelTiro(), 'i');
+                }
+            }
+        }
         // circulos.teletransporteInimigos(arena, inimigosvoadores, v_dec_imutavel * deltaTempo/1000);
 
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
@@ -240,7 +251,7 @@ void idle(void) {
         tiros.moverTiros(deltaTempo/1000);
         bombas.moverBombas(deltaTempo/1000);
 
-        if(!plane.getPerdeu() && circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
+        if(!plane.getPerdeu() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.playerBaleado(player))){
             plane.setPerdeu(true);
             tiros.pararTiros();
             bombas.pararBombas();

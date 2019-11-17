@@ -12,12 +12,14 @@ class Tiros {
 public:
     Tiros();
     int getIncrementingNth();
+    std::vector<Tiro> getLista();
     void resetNth();
     void addTiro(int id, float x, float y, float raioPlayer, float thetaAviaoMomento, 
-                    float thetaCanhaoMomento, float veloc);
+                    float thetaCanhaoMomento, float veloc, char quem);
     void drawTiros(Circulo* arena);
     void deletarTiroForaArena(Circulo* arena);
     void moverTiros(float deltaVel);
+    bool playerBaleado(Circulo* player);
     void limparTiros();
     void pararTiros();
     ~Tiros();

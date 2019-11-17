@@ -18,6 +18,7 @@ public:
     float getVelTiro();
     float getFreqTiro();
     float getThetaMyPlane();
+    float getThetaMyCanhao();
     void setThetaMyHelice(float theta);
     void setThetaMyCanhao(float theta);
     void setThetaMyPlane(float theta);

@@ -4,10 +4,11 @@
 #include <iostream>
 
 Tiro::Tiro(int id, float x, float y, float raioPlayer, float theta, 
-            float veloc) : Circulo(raioPlayer*0.1, x, y, 100, "tiro", id){
+            float veloc, char shooter) : Circulo(raioPlayer*0.1, x, y, 100, "tiro", id){
     this->raioPlayer = raioPlayer;
     this->theta = theta;
     this->vel = veloc;
+    this->atirador = shooter;
 }
 
 float Tiro::getX(){
@@ -27,6 +28,10 @@ int Tiro::getid(){
 
 float Tiro::getVel(){
     return this->vel;
+}
+
+char Tiro::getAtirador(){
+    return this->atirador;
 }
 
 void Tiro::setVel(float new_vel){

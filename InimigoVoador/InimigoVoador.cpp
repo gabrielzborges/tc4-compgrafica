@@ -36,6 +36,10 @@ float InimigoVoador::getThetaMyPlane(){
     return this->getThetaPlane();
 }
 
+float InimigoVoador::getThetaMyCanhao(){
+    return this->getThetaCanhao();
+}
+
 void InimigoVoador::setThetaMyHelice(float theta){
     this->setThetaHelice(theta);
 }
