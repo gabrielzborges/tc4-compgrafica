@@ -20,6 +20,8 @@ public:
     float getThetaMyPlane();
     void setThetaMyHelice(float theta);
     void setThetaMyCanhao(float theta);
+    void setThetaMyPlane(float theta);
+    void setInitialConditions();
     void desenhaInimigoVoador(float x, float y);
     void rotateMyHelice(float deltaTempoIdle, float vel_inimigo);
     void moverAleatoriamente(float deltaTempoIdle);

@@ -313,6 +313,7 @@ void restart(){
     velY = 0.0;
     v_dec = 0.0;
     v_dec_final = 0.0;
+    v_dec_imutavel = 0.0;
     tiros.limparTiros();
     bombas.limparBombas();
     bombas.resetNth();
@@ -321,6 +322,8 @@ void restart(){
     plane.setThetaHelice(0.0);
     decolou = false;
     decolando = false;
+    inimigosvoadores.setInitConditions();
+    circulos.setInitalPositions();
     player->setCoords(cx0, cy0);
     player->setRaio(r0);
     std::cout << "\\------------------------------------------------//" << std::endl;

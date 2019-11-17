@@ -12,6 +12,8 @@ Circulo::Circulo(float r, float x, float y, float num_segs, std::string color, i
     this->y = y;
     this->segmentos = num_segs;
     this->id = id;
+    this->x_init = x;
+    this->y_init = y;
 }
 
 float Circulo::getRaio() {
@@ -24,6 +26,14 @@ float Circulo::getXCoord() {
 
 float Circulo::getYCoord() {
     return this->y;
+}
+
+float Circulo::getInitXCoord(){
+    return this->x_init;
+}
+
+float Circulo::getInitYCoord(){
+    return this->y_init;
 }
 
 std::string Circulo::getFill(){

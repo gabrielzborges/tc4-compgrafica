@@ -19,6 +19,8 @@ class InimigosVoadores {
         void setFreqTiro(float fTiro);
         void initThetaHelices();
         void initThetaCanhao();
+        void initThetaPlane();
+        void setInitConditions();
         InimigoVoador* getInimigoVoadorById(int id);
         void addInimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro);
         void virarInimigos(float deltaTempoIdle);

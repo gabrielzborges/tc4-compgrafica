@@ -46,6 +46,21 @@ void InimigosVoadores::initThetaCanhao(){
     }
 }
 
+void InimigosVoadores::initThetaPlane(){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].setThetaMyPlane(0.0);
+    }
+}
+
+void InimigosVoadores::setInitConditions(){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].setThetaMyHelice(0.0);
+        this->lista[i].setThetaMyCanhao(0.0);
+        this->lista[i].setThetaMyPlane(0.0);
+        this->lista[i].setInitialConditions();
+    }
+}
+
 InimigoVoador* InimigosVoadores::getInimigoVoadorById(int id){
     for(int i = 0; i < this->lista.size(); i++){
         if(this->lista[i].getId() == id){

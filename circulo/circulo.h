@@ -8,7 +8,7 @@
 
 class Circulo {
 private:
-    float raio, x, y; 
+    float raio, x, y, x_init, y_init;
     std::string fill;
     int segmentos, id;
 public:
@@ -16,6 +16,8 @@ public:
     float getRaio();
     float getXCoord();
     float getYCoord();
+    float getInitXCoord();
+    float getInitYCoord();
     std::string getFill();
     int getNumeroSegmentos();
     int getId();

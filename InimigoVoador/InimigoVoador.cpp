@@ -44,6 +44,15 @@ void InimigoVoador::setThetaMyCanhao(float theta){
     this->setThetaCanhao(theta);
 }
 
+void InimigoVoador::setThetaMyPlane(float theta){
+    this->setThetaPlane(theta);
+}
+
+void InimigoVoador::setInitialConditions(){
+    this->thetaAlvo = 0.0;
+    this->estaVirando = false;
+}
+
 void InimigoVoador::desenhaInimigoVoador(float x, float y){
     this->desenhaAviao(x, y, this->getRaio(), 'i');
 }

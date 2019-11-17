@@ -15,6 +15,12 @@ Circulo* Circulos::getLastAdded(){
     return &this->lista[this->lista.size()];
 }
 
+void Circulos::setInitalPositions(){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].setCoords(this->lista[i].getInitXCoord(), this->lista[i].getInitYCoord());
+    }
+}
+
 void Circulos::addCirculo(float r, float x, float y, float num_segs, std::string color, int id) {
     Circulo c = Circulo(r, x, y, num_segs, color, id);
     this->lista.push_back(c);

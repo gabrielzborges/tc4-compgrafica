@@ -15,6 +15,7 @@ public:
     Circulos(/* args */);
     std::vector<Circulo> getLista();
     Circulo* getLastAdded();
+    void setInitalPositions();
     // void addCirculo(Circulo c);
     void addCirculo(float r, float x, float y, float num_segs, std::string color, int id);
     void drawTodosCirculos();
