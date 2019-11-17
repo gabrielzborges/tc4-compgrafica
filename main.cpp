@@ -12,6 +12,8 @@
 #include "bombas/bombas.h"
 #include "InimigoVoador/InimigoVoador.h"
 #include "InimigosVoadores/InimigosVoadores.h"
+#include "BaseInimiga/baseInimiga.h"
+#include "BasesInimigas/basesInimigas.h"
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
@@ -81,6 +83,7 @@ Circulo* arena;
 
 Aviao plane = Aviao();
 InimigosVoadores inimigosvoadores = InimigosVoadores();
+BasesInimigas basesinimigas = BasesInimigas();
 
 Tiros tiros = Tiros();
 
@@ -102,6 +105,21 @@ void display(void) {
 
     //desenhando objetos
     for(Circulo c : circulos.getLista()){
+        if(c.getFill().compare("blue") == 0 && !c.estaMorto()) {
+            c.drawCirculo();
+            break;
+        }
+    }
+
+    for(Circulo c : circulos.getLista()){
+        if(!c.estaMorto() && c.getFill().compare("orange") == 0){
+            BaseInimiga* aux = basesinimigas.getBaseInimigaById(c.getId());
+            c.drawCirculo();
+            aux->desenhaBaseInimiga(c.getXCoord(), c.getYCoord(), c.getRaio());
+        }
+    }
+
+    for(Circulo c : circulos.getLista()){
         if(!c.estaMorto()){
             if(c.getFill().compare("green") == 0){  //desenha a linha antes do aviao para ele ficar por cima
                 //desenho da line
@@ -122,8 +140,6 @@ void display(void) {
                 if(aux->getId() != -1){
                     aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord());
                 }
-            } else {
-                c.drawCirculo();
             }
         }
     }
@@ -459,6 +475,9 @@ bool readSVG(const char* caminho, char* nome, char* tipo){
                 }
                 if(fill.compare("red") == 0){
                     inimigosvoadores.addInimigoVoador(cid, cr, vel_inimigo, velTiro_inimigo, freqTiro_inimigo);
+                }
+                if(fill.compare("orange") == 0){
+                    basesinimigas.addBaseInimiga(cid);
                 }
                 circulos.addCirculo(cr, cx, window_height - cy, num_segs, fill, cid);
             } else if(strcmp(pElement->Name(), "line") == 0 && strncmp(pElement->Name(), "line", strlen("line")) == 0){
