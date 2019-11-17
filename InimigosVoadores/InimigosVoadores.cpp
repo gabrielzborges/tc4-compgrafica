@@ -35,6 +35,10 @@ void InimigosVoadores::setFreqTiro(float fTiro){
     this->freqTiro =  fTiro;
 }
 
+void InimigosVoadores::setTempoControleTiro(float tempo){
+    this->tempoControleTiro = tempo;
+}
+
 void InimigosVoadores::initThetaHelices(){
     for(int i = 0; i < this->lista.size(); i++){
         this->lista[i].setThetaMyHelice(0.0);

@@ -304,8 +304,9 @@ void idle(void) {
             velX = v_dec_final * cos(45.0*3.14159265/180);
             velY = v_dec_final * sin(45.0*3.14159265/180);
             v_dec_imutavel = v_dec;
+            inimigosvoadores.setTempoControleTiro(tempoAtual);
             if(decolou){
-                std::cout << "decolou: " << "sim" << std::endl;
+                std::cout << "decolou: " << "sim - instante: " << tempoAtual/1000 << std::endl;
             }
         }
 

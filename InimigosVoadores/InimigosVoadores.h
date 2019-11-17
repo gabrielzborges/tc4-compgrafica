@@ -18,6 +18,7 @@ class InimigosVoadores {
         void setVel(float v);
         void setVelTiro(float vTiro);
         void setFreqTiro(float fTiro);
+        void setTempoControleTiro(float tempo);
         void initThetaHelices();
         void initThetaCanhao();
         void initThetaPlane();
