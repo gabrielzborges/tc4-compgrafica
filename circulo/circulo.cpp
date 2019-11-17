@@ -121,6 +121,33 @@ void Circulo::estaTotalmenteDentro(Circulo* c, Aviao* a, std::string direcaoSent
     }
 }
 
+void Circulo::inimigoEstaTotalmenteDentro(Circulo* c, InimigoVoador* a, std::string direcaoSentido, float delta){
+    //calcular distancia  do centro ao aviao
+    float distCentroAoJogador = sqrt(pow(this->getXCoord() - c->getXCoord(), 2) + pow(this->getYCoord() - c->getYCoord(), 2));
+
+    if(distCentroAoJogador > (this->getRaio() - c->getRaio())){  //saiu
+        if(direcaoSentido.compare("direita") == 0){
+            c->moveX(-delta);
+        } else if(direcaoSentido.compare("esquerda") == 0){
+            c->moveX(delta);
+        } else if(direcaoSentido.compare("cima") == 0){
+            c->moveY(-delta);
+        } else if(direcaoSentido.compare("baixo") == 0){
+            c->moveY(delta);
+        }
+        float x = c->getXCoord() - this->getXCoord();
+        float y = c->getYCoord() - this->getYCoord();
+        float theta1 = atan2(y, x) * 180/M_PI;
+        float theta2 = ((a->getThetaMyPlane()) - 90);
+        float theta3 = (-2 * (theta1 - theta2)) * M_PI/180;
+
+        c->setCoords(
+            ((x*cos(theta3)) - (y*sin(theta3))) + this->getXCoord(),
+            ((x*sin(theta3)) + (y*cos(theta3))) + this->getYCoord()
+        );
+    }
+}
+
 void Circulo::moveX(float vx){
     this->x += vx;
 }

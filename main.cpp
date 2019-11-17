@@ -48,6 +48,7 @@ float freqTiro_inimigo = 0.0;
 //decolagem
 bool decolando = false;
 bool decolou = false;
+float v_dec_imutavel = 0.0;
 
 //circles
 float cx, cy, cr, r0, cx0, cy0, cxArena, cyArena;  //r0 variavel auxiliar para guardar o raio inicial do aviao
@@ -118,7 +119,7 @@ void display(void) {
         } else if(c.getFill().compare("red") == 0){
             InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(c.getId());
             if(aux->getId() != -1){
-                aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord(), c.getRaio());
+                aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord());
             }
         } else {
             c.drawCirculo();
@@ -220,7 +221,9 @@ void idle(void) {
         velY = v_dec_final * sin(plane.getThetaPlane()*3.14159265/180);
 
         // inimigosvoadores.moverInimigos(deltaTempo);
-        circulos.moverInimigos(v_dec * deltaTempo/1000, inimigosvoadores);
+        circulos.moverInimigos(arena, v_dec_imutavel * deltaTempo/1000, inimigosvoadores);
+        inimigosvoadores.moverHelicesInimigos(v_dec_imutavel * deltaTempo/1000);
+        // circulos.teletransporteInimigos(arena, inimigosvoadores, v_dec_imutavel * deltaTempo/1000);
 
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
 	    	player->moveY(velY);
@@ -288,6 +291,7 @@ void idle(void) {
             v_dec_final = v_dec * vel * (deltaTempo/1000);
             velX = v_dec_final * cos(45.0*3.14159265/180);
             velY = v_dec_final * sin(45.0*3.14159265/180);
+            v_dec_imutavel = v_dec;
             if(decolou){
                 std::cout << "decolou: " << "sim" << std::endl;
             }
@@ -426,7 +430,7 @@ bool readSVG(const char* caminho, char* nome, char* tipo){
                     cy0 = window_height - cy;
                 }
                 if(fill.compare("red") == 0){
-                    inimigosvoadores.addInimigoVoador(cid, vel_inimigo, velTiro_inimigo, freqTiro_inimigo);
+                    inimigosvoadores.addInimigoVoador(cid, cr, vel_inimigo, velTiro_inimigo, freqTiro_inimigo);
                 }
                 circulos.addCirculo(cr, cx, window_height - cy, num_segs, fill, cid);
             } else if(strcmp(pElement->Name(), "line") == 0 && strncmp(pElement->Name(), "line", strlen("line")) == 0){
@@ -459,6 +463,8 @@ int main(int argc, char** argv) {
             if(readSVG(caminhoArq, nome, tipo)){
                 player = circulos.getCirculoById(cjid);
                 arena = circulos.getCirculoByColor("blue");
+                inimigosvoadores.initThetaHelices();
+                inimigosvoadores.initThetaCanhao();
                 glutInit(&argc, argv);
                 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
                 glutInitWindowSize(window_width, window_height);

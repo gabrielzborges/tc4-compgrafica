@@ -2,7 +2,7 @@
 #include <math.h>
 #include "./InimigosVoadores.h"
 
-InimigoVoador notFound = InimigoVoador(-1, -1.0, -1.0, -1.0);
+InimigoVoador notFound = InimigoVoador(-1, -1.0, -1.0, -1.0, -1.0);
 
 InimigosVoadores::InimigosVoadores(){
     this->vel = 0.0;
@@ -34,6 +34,18 @@ void InimigosVoadores::setFreqTiro(float fTiro){
     this->freqTiro =  fTiro;
 }
 
+void InimigosVoadores::initThetaHelices(){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].setThetaMyHelice(0.0);
+    }
+}
+
+void InimigosVoadores::initThetaCanhao(){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].setThetaMyCanhao(0.0);
+    }
+}
+
 InimigoVoador* InimigosVoadores::getInimigoVoadorById(int id){
     for(int i = 0; i < this->lista.size(); i++){
         if(this->lista[i].getId() == id){
@@ -43,9 +55,15 @@ InimigoVoador* InimigosVoadores::getInimigoVoadorById(int id){
     return &notFound;
 }
 
-void InimigosVoadores::addInimigoVoador(int id, float vel, float velTiro, float freqTiro){
-    InimigoVoador iniVoador = InimigoVoador(id, vel, velTiro, freqTiro);
+void InimigosVoadores::addInimigoVoador(int id, float raio, float vel, float velTiro, float freqTiro){
+    InimigoVoador iniVoador = InimigoVoador(id, raio, vel, velTiro, freqTiro);
     this->lista.push_back(iniVoador);
+}
+
+void InimigosVoadores::moverHelicesInimigos(float deltaTempoIdle){
+    for(int i = 0; i < this->lista.size(); i++){
+        this->lista[i].rotateMyHelice(deltaTempoIdle, this->getVel());
+    }
 }
 
 // void InimigosVoadores::moverInimigos(float deltaTempoIdle){

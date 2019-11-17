@@ -57,7 +57,7 @@ void Circulos::arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos){
     this->lista[pos].setCoords(novo_x, novo_y);
 }
 
-void Circulos::moverInimigos(float deltaTempoIdle, InimigosVoadores inimigos){
+void Circulos::moverInimigos(Circulo* arena, float deltaTempoIdle, InimigosVoadores inimigos){
     float velAjustada = inimigos.getVel() * deltaTempoIdle;
     for(int i = 0; i < this->lista.size(); i++){
         if(this->lista[i].getFill().compare("red") == 0){
@@ -65,7 +65,23 @@ void Circulos::moverInimigos(float deltaTempoIdle, InimigosVoadores inimigos){
             float velX = velAjustada * cos(aux->getThetaMyPlane() * M_PI/180);
             float velY = velAjustada * sin(aux->getThetaMyPlane() * M_PI/180);
             this->lista[i].moveX(velX);
+            arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux,"direita", velX);
             this->lista[i].moveY(velY);
+            arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux, "cima", velY);
+        }
+    }
+}
+
+void Circulos::teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos, float deltaTempoIdle){
+    float velAjustada = inimigos.getVel() * deltaTempoIdle;
+    for(int i = 0; i < this->lista.size();  i++){
+        if(this->lista[i].getFill().compare("red") == 0){
+            // Circulo* c_aux = &this->lista[i];
+            InimigoVoador* aux = inimigos.getInimigoVoadorById(this->lista[i].getId());
+            float velX = velAjustada * cos(aux->getThetaMyPlane() * M_PI/180);
+            float velY = velAjustada * sin(aux->getThetaMyPlane() * M_PI/180);
+            arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux, "cima", velY);
+            // arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux,"direita", velX);
         }
     }
 }

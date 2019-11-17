@@ -2,8 +2,9 @@
 #define CIRCULO_H
 
 
-#include <string>
+#include "../InimigoVoador/InimigoVoador.h"
 #include "../aviao/aviao.h"
+#include <string>
 
 class Circulo {
 private:
@@ -24,6 +25,7 @@ public:
     bool colideComigo(float x, float y, float raioDoOutro);
     bool pertenceAoMeuDisco(float x, float y);
     void estaTotalmenteDentro(Circulo* c, Aviao* a, std::string direcaoSentido, float delta);
+    void inimigoEstaTotalmenteDentro(Circulo* c, InimigoVoador* a, std::string direcaoSentido, float delta);
     void moveX(float vx);
     void moveY(float vy);
     void aumentarRaio(float incremento);

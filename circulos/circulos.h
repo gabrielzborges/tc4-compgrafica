@@ -22,7 +22,8 @@ public:
     bool colideComInimigo(float x, float y, float raio);
     int estaSobreQual(float x, float y);
     void arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos);
-    void moverInimigos(float deltaTempoIdle, InimigosVoadores inimigos);
+    void moverInimigos(Circulo* arena, float deltaTempoIdle, InimigosVoadores inimigos);
+    void teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos, float deltaTempoIdle);
     Circulo* getCirculoById(int id);
     Circulo* getCirculoByColor(std::string color);
     ~Circulos();
