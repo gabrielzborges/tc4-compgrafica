@@ -1,10 +1,16 @@
 #include "tiro.h"
 #include <GL/glut.h>
 #include <math.h>
+#include <string>
 #include <iostream>
 
+std::string concat(std::string text, char letra){
+    text += letra;
+    return text;
+}
+
 Tiro::Tiro(int id, float x, float y, float raioPlayer, float theta, 
-            float veloc, char shooter) : Circulo(raioPlayer*0.1, x, y, 100, "tiro", id){
+            float veloc, char shooter) : Circulo(raioPlayer*0.1, x, y, 100, concat("tiro ", shooter), id){
     this->raioPlayer = raioPlayer;
     this->theta = theta;
     this->vel = veloc;
