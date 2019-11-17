@@ -54,6 +54,17 @@ void Bombas::moverBombas(float deltaVel){
     }
 }
 
+bool Bombas::baseBombardeada(Circulo* c){
+    for(int i = 0; i < this->lista.size(); i++){
+        if(this->lista[i].getR() <= this->lista[i].getInitialR()/2.0 
+            && c->colideComigo(this->lista[i].getX(), this->lista[i].getY(), 
+                                        this->lista[i].getR())){
+            return true;
+        }
+    }
+    return false;
+}
+
 void Bombas::limparBombas(){
     this->lista.clear();
 }

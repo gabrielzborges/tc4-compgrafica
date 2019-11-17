@@ -26,7 +26,7 @@ public:
     void arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos);
     void moverInimigos(Circulo* arena, float deltaTempoIdle, InimigosVoadores inimigos);
     void teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos, float deltaTempoIdle);
-    void matarCirculoById(int id, float x, float y);
+    void matarCirculoById(int id, float x, float y, std::string cor);
     Circulo* getCirculoById(int id);
     Circulo* getCirculoByColor(std::string color);
     ~Circulos();

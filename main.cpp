@@ -237,13 +237,6 @@ void idle(void) {
                 }
             }
         }
-
-        for(int i = 0; i < circulos.getLista().size(); i++){
-            if(circulos.getLista()[i].getFill().compare("red") == 0 && tiros.aviaoBaleado(&circulos.getLista()[i], 'j')){
-                // Circulo* c = &circulos.getLista()[i];
-                circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord());
-            }
-        }
         // circulos.teletransporteInimigos(arena, inimigosvoadores, v_dec_imutavel * deltaTempo/1000);
 
         if(decolou && !circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio())){
@@ -259,6 +252,16 @@ void idle(void) {
         plane.rotateHelice(sqrt(pow(velX, 2) + pow(velY, 2)), player->getRaio());
         tiros.moverTiros(deltaTempo/1000);
         bombas.moverBombas(deltaTempo/1000);
+
+        for(int i = 0; i < circulos.getLista().size(); i++){
+            if(circulos.getLista()[i].getFill().compare("red") == 0 && tiros.aviaoBaleado(&circulos.getLista()[i], 'j')){
+                circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord(), "red");
+            }
+            if(circulos.getLista()[i].getFill().compare("orange") == 0 && bombas.baseBombardeada(&circulos.getLista()[i])){
+                std::cout << "aqui" << std::endl;
+                circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord(), "orange");
+            }
+        }
 
         if(!plane.getPerdeu() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.aviaoBaleado(player, 'i'))){
             plane.setPerdeu(true);

@@ -18,6 +18,7 @@ public:
     void drawBombas(Circulo* arena);
     void explodirBombaForaOuTempo(Circulo* arena);
     void moverBombas(float deltaVel);
+    bool baseBombardeada(Circulo* c);
     void limparBombas();
     void pararBombas();
     ~Bombas();

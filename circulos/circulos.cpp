@@ -93,11 +93,11 @@ void Circulos::teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos,
     }
 }
 
-void Circulos::matarCirculoById(int id, float x, float y){
+void Circulos::matarCirculoById(int id, float x, float y, std::string cor){
     for(int i = 0; i < this->lista.size(); i++){
         if(this->lista[i].getId() == id && this->lista[i].getXCoord() == x 
             && this->lista[i].getYCoord() == y 
-            && this->lista[i].getFill().compare("red") == 0) {
+            && this->lista[i].getFill().compare(cor) == 0) {
                 this->lista[i].setEstaMorto(true);
         }
     }
