@@ -14,6 +14,7 @@ Circulo::Circulo(float r, float x, float y, float num_segs, std::string color, i
     this->id = id;
     this->x_init = x;
     this->y_init = y;
+    this->morto = false;
 }
 
 float Circulo::getRaio() {
@@ -46,6 +47,14 @@ int Circulo::getNumeroSegmentos() {
 
 int Circulo::getId() {
     return this->id;
+}
+
+bool Circulo::estaMorto(){
+    return this->morto;
+}
+
+void Circulo::setEstaMorto(bool estado){
+    this->morto = estado;
 }
 
 void Circulo::setCoords(float novo_x, float novo_y){

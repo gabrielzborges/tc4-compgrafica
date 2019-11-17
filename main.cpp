@@ -102,27 +102,29 @@ void display(void) {
 
     //desenhando objetos
     for(Circulo c : circulos.getLista()){
-        if(c.getFill().compare("green") == 0){  //desenha a linha antes do aviao para ele ficar por cima
-            //desenho da line
-            glColor3f(0.0, 0.0, 0.0);
-            glBegin(GL_LINES);
-                glVertex2f(lx1, window_height - ly1);
-                glVertex2f(lx2, window_height - ly2);
-            glEnd();
-            //c.drawCirculo();
-            if(!decolando && !decolou){
-                plane.setThetaPlane(atan2((window_height-ly2)-(window_height-ly1), lx2-lx1));
+        if(!c.estaMorto()){
+            if(c.getFill().compare("green") == 0){  //desenha a linha antes do aviao para ele ficar por cima
+                //desenho da line
+                glColor3f(0.0, 0.0, 0.0);
+                glBegin(GL_LINES);
+                    glVertex2f(lx1, window_height - ly1);
+                    glVertex2f(lx2, window_height - ly2);
+                glEnd();
+                //c.drawCirculo();
+                if(!decolando && !decolou){
+                    plane.setThetaPlane(atan2((window_height-ly2)-(window_height-ly1), lx2-lx1));
+                }
+                bombas.drawBombas(arena);
+                plane.desenhaAviao(c.getXCoord(), c.getYCoord(), c.getRaio(), 'j');
+                tiros.drawTiros(arena);
+            } else if(c.getFill().compare("red") == 0){
+                InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(c.getId());
+                if(aux->getId() != -1){
+                    aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord());
+                }
+            } else {
+                c.drawCirculo();
             }
-            bombas.drawBombas(arena);
-            plane.desenhaAviao(c.getXCoord(), c.getYCoord(), c.getRaio(), 'j');
-            tiros.drawTiros(arena);
-        } else if(c.getFill().compare("red") == 0){
-            InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(c.getId());
-            if(aux->getId() != -1){
-                aux->desenhaInimigoVoador(c.getXCoord(), c.getYCoord());
-            }
-        } else {
-            c.drawCirculo();
         }
     }
 
@@ -228,11 +230,19 @@ void idle(void) {
         if(inimigosvoadores.atirar(tempoAtual)){
             std::vector<Circulo> list_circulo = circulos.getLista();
             for(int i = 0; i < list_circulo.size(); i++){
-                if(list_circulo[i].getFill().compare("red") == 0){
+                if(!list_circulo[i].estaMorto() && list_circulo[i].getFill().compare("red") == 0){
                     InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(list_circulo[i].getId());
                     tiros.addTiro(tiros.getIncrementingNth(), list_circulo[i].getXCoord(), list_circulo[i].getYCoord(), list_circulo[i].getRaio(), 
                                 aux->getThetaMyPlane(), aux->getThetaMyCanhao(), v_dec_imutavel * inimigosvoadores.getVelTiro(), 'i');
                 }
+            }
+        }
+
+        for(int i = 0; i < circulos.getLista().size(); i++){
+            if(circulos.getLista()[i].getFill().compare("red") == 0 && tiros.aviaoBaleado(&circulos.getLista()[i], 'j')){
+                Circulo* c = &circulos.getLista()[i];
+                // c->setEstaMorto(true);
+                circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord());
             }
         }
         // circulos.teletransporteInimigos(arena, inimigosvoadores, v_dec_imutavel * deltaTempo/1000);
@@ -251,7 +261,7 @@ void idle(void) {
         tiros.moverTiros(deltaTempo/1000);
         bombas.moverBombas(deltaTempo/1000);
 
-        if(!plane.getPerdeu() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.playerBaleado(player))){
+        if(!plane.getPerdeu() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.aviaoBaleado(player, 'i'))){
             plane.setPerdeu(true);
             tiros.pararTiros();
             bombas.pararBombas();

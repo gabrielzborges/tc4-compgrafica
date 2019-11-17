@@ -18,6 +18,7 @@ Circulo* Circulos::getLastAdded(){
 void Circulos::setInitalPositions(){
     for(int i = 0; i < this->lista.size(); i++){
         this->lista[i].setCoords(this->lista[i].getInitXCoord(), this->lista[i].getInitYCoord());
+        this->lista[i].setEstaMorto(false);
     }
 }
 
@@ -43,7 +44,7 @@ bool Circulos::colideComAlgumExistente(float x, float y, float raioDoModelo){
 
 bool Circulos::colideComInimigo(float x, float y, float raio){
     for(Circulo c : this->lista){
-        if(c.getFill().compare("red") == 0 && c.colideComigo(x, y, raio)){
+        if(!c.estaMorto() && c.getFill().compare("red") == 0 && c.colideComigo(x, y, raio)){
             return true;
         }
     }
@@ -66,7 +67,7 @@ void Circulos::arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos){
 void Circulos::moverInimigos(Circulo* arena, float deltaTempoIdle, InimigosVoadores inimigos){
     float velAjustada = inimigos.getVel() * deltaTempoIdle;
     for(int i = 0; i < this->lista.size(); i++){
-        if(this->lista[i].getFill().compare("red") == 0){
+        if(!this->lista[i].estaMorto() && this->lista[i].getFill().compare("red") == 0){
             InimigoVoador* aux = inimigos.getInimigoVoadorById(this->lista[i].getId());
             float velX = velAjustada * cos(aux->getThetaMyPlane() * M_PI/180);
             float velY = velAjustada * sin(aux->getThetaMyPlane() * M_PI/180);
@@ -88,6 +89,16 @@ void Circulos::teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos,
             float velY = velAjustada * sin(aux->getThetaMyPlane() * M_PI/180);
             arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux, "cima", velY);
             // arena->inimigoEstaTotalmenteDentro(&this->lista[i], aux,"direita", velX);
+        }
+    }
+}
+
+void Circulos::matarCirculoById(int id, float x, float y){
+    for(int i = 0; i < this->lista.size(); i++){
+        if(this->lista[i].getId() == id && this->lista[i].getXCoord() == x 
+            && this->lista[i].getYCoord() == y 
+            && this->lista[i].getFill().compare("red") == 0) {
+                this->lista[i].setEstaMorto(true);
         }
     }
 }

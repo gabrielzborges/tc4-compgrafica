@@ -16,6 +16,7 @@ public:
     std::vector<Circulo> getLista();
     Circulo* getLastAdded();
     void setInitalPositions();
+    void setInitialConditions();
     // void addCirculo(Circulo c);
     void addCirculo(float r, float x, float y, float num_segs, std::string color, int id);
     void drawTodosCirculos();
@@ -25,6 +26,7 @@ public:
     void arrastaCirculoPorPosicao(float novo_x, float novo_y, int pos);
     void moverInimigos(Circulo* arena, float deltaTempoIdle, InimigosVoadores inimigos);
     void teletransporteInimigos(Circulo* arena, InimigosVoadores inimigos, float deltaTempoIdle);
+    void matarCirculoById(int id, float x, float y);
     Circulo* getCirculoById(int id);
     Circulo* getCirculoByColor(std::string color);
     ~Circulos();

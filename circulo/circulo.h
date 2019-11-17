@@ -11,7 +11,9 @@ class Circulo {
 private:
     float raio, x, y, x_init, y_init;
     std::string fill;
+    bool morto;
     int segmentos, id;
+
 public:
     Circulo(float r, float x, float y, float segmentos, std::string color, int id);
     float getRaio();
@@ -22,6 +24,8 @@ public:
     std::string getFill();
     int getNumeroSegmentos();
     int getId();
+    bool estaMorto();
+    void setEstaMorto(bool estado);
     void setCoords(float novo_x, float novo_y);
     void setRaio(float novoR);
     void drawCirculo();

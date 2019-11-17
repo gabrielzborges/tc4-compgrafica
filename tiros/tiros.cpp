@@ -54,10 +54,10 @@ void Tiros::moverTiros(float deltaVel){
     }
 }
 
-bool Tiros::playerBaleado(Circulo* player){
+bool Tiros::aviaoBaleado(Circulo* c, char shooter){
     for(int i = 0; i < this->lista.size(); i++){
-        if(this->lista[i].getAtirador() == 'i' 
-            && player->colideComigo(this->lista[i].getX(), this->lista[i].getY(), 
+        if(this->lista[i].getAtirador() == shooter 
+            && c->colideComigo(this->lista[i].getX(), this->lista[i].getY(), 
                                         this->lista[i].getR())){
             return true;
         }

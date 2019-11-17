@@ -19,7 +19,7 @@ public:
     void drawTiros(Circulo* arena);
     void deletarTiroForaArena(Circulo* arena);
     void moverTiros(float deltaVel);
-    bool playerBaleado(Circulo* player);
+    bool aviaoBaleado(Circulo* c, char shooter);
     void limparTiros();
     void pararTiros();
     ~Tiros();
