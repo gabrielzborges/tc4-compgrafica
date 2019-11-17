@@ -240,8 +240,7 @@ void idle(void) {
 
         for(int i = 0; i < circulos.getLista().size(); i++){
             if(circulos.getLista()[i].getFill().compare("red") == 0 && tiros.aviaoBaleado(&circulos.getLista()[i], 'j')){
-                Circulo* c = &circulos.getLista()[i];
-                // c->setEstaMorto(true);
+                // Circulo* c = &circulos.getLista()[i];
                 circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord());
             }
         }

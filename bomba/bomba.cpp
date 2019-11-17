@@ -40,7 +40,7 @@ void Bomba::setVel(float new_vel){
 
 //diminui o raio ate a metade em quatro segundos
 void Bomba::diminuirRaio(float deltaT){
-    float decrementLenght = this->raio / 4.0;
+    float decrementLenght = this->raio / 2.0;
     float decrementVel = decrementLenght * deltaT/2;
     this->diminRaio(decrementVel);
 }
