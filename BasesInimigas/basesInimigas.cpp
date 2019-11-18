@@ -4,7 +4,7 @@
 BaseInimiga baseNotFound = BaseInimiga(-1.0);
 
 BasesInimigas::BasesInimigas(){
-
+    this->bombardeadas = 0;
 }
 
 BaseInimiga* BasesInimigas::getBaseInimigaById(int id){
@@ -16,23 +16,25 @@ BaseInimiga* BasesInimigas::getBaseInimigaById(int id){
     return &baseNotFound;
 }
 
+void BasesInimigas::setInitConditions(){
+    this->bombardeadas = 0;
+}
+
 void BasesInimigas::addBaseInimiga(int id){
     BaseInimiga base = BaseInimiga(id);
     this->lista.push_back(base);
 }
 
 int BasesInimigas::numBasesBombardeadas(){
-    int res = 0;
-    for(int i = 0; i < this->lista.size(); i++){
-        if(this->lista[i].estaBombardeada()){
-            res++;
-        }
-    }
-    return res;
+    return this->bombardeadas;
 }
 
 int BasesInimigas::numBasesVivas(){
-    return (this->lista.size() - this->numBasesBombardeadas());
+    return (this->lista.size() - this->bombardeadas);
+}
+
+void BasesInimigas::incrementNumBombardeadas(){
+    this->bombardeadas += 1;
 }
 
 BasesInimigas::~BasesInimigas(){

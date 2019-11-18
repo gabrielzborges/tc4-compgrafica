@@ -7,6 +7,7 @@
 class BasesInimigas {
     private:
     std::vector<BaseInimiga> lista;
+    int bombardeadas;
 
     public:
     BasesInimigas();
@@ -15,6 +16,7 @@ class BasesInimigas {
     void addBaseInimiga(int id);
     int numBasesBombardeadas();
     int numBasesVivas();
+    void incrementNumBombardeadas();
     ~BasesInimigas();
 };
 

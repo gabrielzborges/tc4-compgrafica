@@ -3,6 +3,7 @@
 #include <string>
 #include <math.h>
 #include <iostream>
+#include <sstream>
 #include <typeinfo>
 #include "circulos/circulos.h"
 #include "aviao/aviao.h"
@@ -17,6 +18,11 @@
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
+
+
+//strings bases do placar
+std::string basesDestruidas ("Bases destruidas: ");
+std::string basesRestantes ("Bases restantes: ");
 
 
 //arrays auxiliares
@@ -94,6 +100,35 @@ void drawCirculoMouse(float x_centro, float y_centro, float raio, int num_seg);
 
 void restart();
 
+void RasterChars(GLfloat x, GLfloat y, GLfloat z, const char * text, double r, double g, double b, void* fontType){
+    //Push to recover original attributes
+    glPushAttrib(GL_ENABLE_BIT);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_TEXTURE_2D);
+        //Draw text in the x, y, z position
+        glColor3f(r,g,b);
+        glRasterPos3f(x, y, z);
+        const char* tmpStr;
+        tmpStr = text;
+        while( *tmpStr ){
+            glutBitmapCharacter(fontType, *tmpStr);
+            tmpStr++;
+        }
+    glPopAttrib();
+}
+
+void PrintText(GLfloat x, GLfloat y, const char * text, double r, double g, double b, void* fontType){
+    //Draw text considering a 2D space (disable all 3d features)
+    glMatrixMode (GL_PROJECTION);
+    //Push to recover original PROJECTION MATRIX
+    glPushMatrix();
+        glLoadIdentity ();
+        glOrtho (0, 1, 0, 1, -1, 1);
+        RasterChars(x, y, 0, text, r, g, b, fontType);    
+    glPopMatrix();
+    glMatrixMode (GL_MODELVIEW);
+}
+
 void display(void) {
     /* Limpar todos os pixels */
     glClear(GL_COLOR_BUFFER_BIT);
@@ -102,6 +137,14 @@ void display(void) {
     glLoadIdentity();
     
     gluOrtho2D(cxArena - window_width/2, cxArena + window_width/2, (window_height - cyArena) - window_height/2, (window_height - cyArena) + window_height/2);
+    std::stringstream temp_str;
+    temp_str<<(basesinimigas.numBasesBombardeadas());
+    std::string str = basesDestruidas + temp_str.str();
+    std::stringstream temp_str2;
+    temp_str2<<(basesinimigas.numBasesVivas());
+    std::string str2 = basesRestantes + temp_str2.str();
+    PrintText(0.73, 0.95, str.c_str(), 1.0, 1.0, 1.0, GLUT_BITMAP_8_BY_13);
+    PrintText(0.73, 0.98, str2.c_str(), 1.0, 1.0, 1.0, GLUT_BITMAP_8_BY_13);
 
     //desenhando objetos
     for(Circulo c : circulos.getLista()){
@@ -144,6 +187,14 @@ void display(void) {
         }
     }
 
+    if(plane.getPerdeu()){
+        PrintText(0.4, 0.5, "VOCE PERDEU!", 1.0, 1.0, 1.0, GLUT_BITMAP_9_BY_15);
+    }
+
+    if(plane.getGanhou()){
+        PrintText(0.4, 0.5, "VOCE GANHOU!", 1.0, 1.0, 1.0, GLUT_BITMAP_9_BY_15);
+    }
+
     /* Nao esperar! */
     glFlush();
 }
@@ -165,14 +216,14 @@ void mouse(int button, int state, int x, int y) {
         //tiro
         if(decolou){
             tiros.addTiro(tiros.getIncrementingNth(), player->getXCoord(), player->getYCoord(), player->getRaio(), 
-                            plane.getThetaPlane(), plane.getThetaCanhao(), v_dec*velTiro, 'j');
+                            plane.getThetaPlane(), plane.getThetaCanhao(), v_dec*vel*velTiro, 'j');
         }
 	}
 	if(button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN && !plane.getPerdeu()) {
         //bomba
         if(decolou){
             bombas.addBomba(bombas.getIncrementingNth(), player->getXCoord(), player->getYCoord(), player->getRaio(), 
-                            plane.getThetaPlane(), v_dec);
+                            plane.getThetaPlane(), v_dec*vel);
         }
 	}
     // glutPostRedisplay();
@@ -230,6 +281,10 @@ void idle(void) {
             return;
         }
 
+        if(plane.getGanhou()){
+            return;
+        }
+
         //o motivo de recalcular as velocidades eh para evitar de caso por algum arredondamento
         //deltaTempo tenha dado zero ao fim da decolagem (aonde tem este calculo), entao,
         //outra vez nao vai ser pequeno suficiente para a maquina arredondar para zero, e assim,
@@ -249,7 +304,8 @@ void idle(void) {
                 if(!list_circulo[i].estaMorto() && list_circulo[i].getFill().compare("red") == 0){
                     InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(list_circulo[i].getId());
                     tiros.addTiro(tiros.getIncrementingNth(), list_circulo[i].getXCoord(), list_circulo[i].getYCoord(), list_circulo[i].getRaio(), 
-                                aux->getThetaMyPlane(), aux->getThetaMyCanhao(), v_dec_imutavel * inimigosvoadores.getVelTiro(), 'i');
+                                aux->getThetaMyPlane(), aux->getThetaMyCanhao(), v_dec_imutavel * vel_inimigo * inimigosvoadores.getVelTiro(), 'i');
+                    std::cout << "Inimigos atirando, instante: " << tempoAtual/1000 << std::endl;
                 }
             }
         }
@@ -274,16 +330,22 @@ void idle(void) {
                 circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord(), "red");
             }
             if(circulos.getLista()[i].getFill().compare("orange") == 0 && bombas.baseBombardeada(&circulos.getLista()[i])){
-                std::cout << "aqui" << std::endl;
                 circulos.matarCirculoById(circulos.getLista()[i].getId(), circulos.getLista()[i].getXCoord(), circulos.getLista()[i].getYCoord(), "orange");
+                basesinimigas.incrementNumBombardeadas();
             }
         }
 
-        if(!plane.getPerdeu() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.aviaoBaleado(player, 'i'))){
+        if(!plane.getPerdeu() && !plane.getGanhou() && (circulos.colideComInimigo(player->getXCoord(), player->getYCoord()+velY, player->getRaio()) || tiros.aviaoBaleado(player, 'i'))){
             plane.setPerdeu(true);
             tiros.pararTiros();
             bombas.pararBombas();
             std::cout << "Voce perdeu, fim de jogo!\nPressione r para recomecar." << std::endl;
+        }
+        if(!plane.getPerdeu() && !plane.getGanhou() && basesinimigas.numBasesVivas() == 0){
+            plane.setGanhou(true);
+            tiros.pararTiros();
+            bombas.pararBombas();
+            std::cout << "Voce ganhou, parabens!\nPressione r para recomecar." << std::endl;
         }
 	    if(flags['a'] == 1) {
             plane.rotatePlane((M_PI/2)*(deltaTempo/1000));
@@ -358,11 +420,13 @@ void restart(){
     bombas.limparBombas();
     bombas.resetNth();
     plane.setPerdeu(false);
+    plane.setGanhou(false);
     plane.setThetaCanhao(0.0);
     plane.setThetaHelice(0.0);
     decolou = false;
     decolando = false;
     inimigosvoadores.setInitConditions();
+    basesinimigas.setInitConditions();
     circulos.setInitalPositions();
     player->setCoords(cx0, cy0);
     player->setRaio(r0);

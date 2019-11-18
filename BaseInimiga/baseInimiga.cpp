@@ -19,13 +19,13 @@ void BaseInimiga::desenhaBaseInimiga(float x, float y, float raio){
     glEnd();
 
     //desenha canhao da base
-    glRotatef(45, 0.0, 0.0, 1.0);
+    glRotatef(30, 0.0, 0.0, 1.0);
     glColor3f(0.0, 0.0, 0.0);
     glBegin(GL_QUADS);
         glVertex3f (0, (0.05 * raio), 0.0);   
 		glVertex3f (0, -(0.05 * raio), 0.0);
-		glVertex3f (1.3 * raio, -(0.05 * raio), 0.0);
-		glVertex3f (1.3 * raio, (0.05 * raio), 0.0);
+		glVertex3f (0.65 * raio, -(0.05 * raio), 0.0);
+		glVertex3f (0.65 * raio, (0.05 * raio), 0.0);
     glEnd();
     glPopMatrix();
 }
@@ -38,8 +38,8 @@ int BaseInimiga::getId(){
     return this->id;
 }
 
-void BaseInimiga::setBombardeamento(){
-    this->bombardeada = true;
+void BaseInimiga::setBombardeamento(bool estado){
+    this->bombardeada = estado;
 }
 
 BaseInimiga::~BaseInimiga(){

@@ -9,15 +9,17 @@ private:
     float thetaCanhao;
     float thetaPlane;
     float thetaHelice;
-    bool perdeu;
+    bool perdeu, ganhou;
 public:
     float getThetaCanhao();
     float getThetaPlane();
     bool getPerdeu();
+    bool getGanhou();
     void setThetaPlane(float theta);
     void setThetaCanhao(float theta);
     void setThetaHelice(float theta);
     void setPerdeu(bool estado);
+    void setGanhou(bool estado);
     void rotatePlane(float theta);
     void rotateCanhao(float theta);
     void rotateHelice(float delta, float raioMaior);

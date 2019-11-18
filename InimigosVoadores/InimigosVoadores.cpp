@@ -86,7 +86,6 @@ bool InimigosVoadores::atirar(float timeNow){
         this->tempoControleTiro = timeNow;
         return false;
     } else if(timeNow - this->tempoControleTiro >= (1/freqTiro)*1000){
-        std::cout << "Inimigos atirando, instante: " << timeNow/1000 << std::endl;
         this->tempoControleTiro = timeNow;
         return true;
     }

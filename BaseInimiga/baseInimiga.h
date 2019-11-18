@@ -11,7 +11,7 @@ class BaseInimiga {
     void desenhaBaseInimiga(float x, float y, float raio);
     bool estaBombardeada();
     int getId();
-    void setBombardeamento();
+    void setBombardeamento(bool estado);
     ~BaseInimiga();
 };
 

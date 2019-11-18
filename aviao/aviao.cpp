@@ -16,6 +16,10 @@ bool Aviao::getPerdeu(){
     return this->perdeu;
 }
 
+bool Aviao::getGanhou(){
+    return this->ganhou;
+}
+
 void Aviao::setThetaPlane(float theta){
     this->thetaPlane = theta * 180/M_PI;
 }
@@ -30,6 +34,10 @@ void Aviao::setThetaHelice(float theta){
 
 void Aviao::setPerdeu(bool estado){
     this->perdeu = estado;
+}
+
+void Aviao::setGanhou(bool estado){
+    this->ganhou = estado;
 }
 
 void Aviao::rotatePlane(float theta){
