@@ -305,7 +305,7 @@ void idle(void) {
                     InimigoVoador* aux = inimigosvoadores.getInimigoVoadorById(list_circulo[i].getId());
                     tiros.addTiro(tiros.getIncrementingNth(), list_circulo[i].getXCoord(), list_circulo[i].getYCoord(), list_circulo[i].getRaio(), 
                                 aux->getThetaMyPlane(), aux->getThetaMyCanhao(), v_dec_imutavel * vel_inimigo * inimigosvoadores.getVelTiro(), 'i');
-                    std::cout << "Inimigos atirando, instante: " << tempoAtual/1000 << std::endl;
+                    std::cout << "Inimigo atirando, instante: " << tempoAtual/1000 << std::endl;
                 }
             }
         }
